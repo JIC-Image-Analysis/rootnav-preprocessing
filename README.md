@@ -1,6 +1,10 @@
-# rotate-and-crop
+# RootNav preprocessing
 
 ## Introduction
+
+The script in this project has been created to rotate and crop an image from
+a camera to make it suitable for processing using
+[RootNav](https://www.cpib.ac.uk/tools-resources/software/rootnav/).
 
 This image analysis project has been setup to take advantage of a technology
 known as Docker.
