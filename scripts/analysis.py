@@ -36,12 +36,12 @@ def rotate(image):
 
 @transformation
 def red_channel_diff_to_mask(image, min_diff):
-    return image[:, :, 0] < image[:, :, 2] - min_diff
+    return image[:, :, 0] < (image[:, :, 2] - min_diff)
 
 
 @transformation
 def green_channel_diff_to_mask(image, min_diff):
-    return image[:, :, 0] < image[:, :, 2] - min_diff
+    return image[:, :, 1] < (image[:, :, 2] - min_diff)
 
 
 @transformation
