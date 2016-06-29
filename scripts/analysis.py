@@ -16,11 +16,23 @@ from jicbioimage.transform import (
 )
 
 from jicbioimage.segment import Region
-from jicbioimage.illustrate import AnnotatedImage
+
+from zbar import zbar
 
 __version__ = "0.0.1"
 
 AutoName.prefix_format = "{:03d}_"
+
+
+def generate_output_filename(fpath):
+    """Try to generate filename from QR code in fpath image."""
+    name = os.path.splitext(os.path.basename(fpath))[0]
+    stdout, stderr, returncode = zbar(fpath)
+    if returncode == 0:
+        name = stdout.split(":")[1].strip()
+        name = name.replace(" ", "-")
+    fname = name + "-rotated-and-cropped.png"
+    return fname
 
 
 @transformation
@@ -89,17 +101,10 @@ def analyse_file(fpath, output_directory):
     mask = convex_hull(mask)
     ys, xs = Region(mask).index_arrays
 
-    name = os.path.splitext(os.path.basename(fpath))[0]
-    fname = name + "-rotated-and-cropped.png"
+    fname = generate_output_filename(fpath)
     fpath = os.path.join(AutoName.directory, fname)
-
-
     with open(fpath, "wb") as fh:
         fh.write(image[min(ys):max(ys), min(xs):max(xs), :].png())
-#   ann = AnnotatedImage.from_grayscale(grayscale)
-#   ann.mask_region(Region(mask).border.dilate(10))
-#   with open(fpath, "wb") as fh:
-#       fh.write(ann.png())
 
 
 def analyse_directory(input_directory, output_directory):
