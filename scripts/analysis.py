@@ -78,7 +78,8 @@ def blue_to_mask(image, min_blue, min_difference):
     blue_mask = min_blue_mask(image, min_blue)
     red_diff_mask = red_channel_diff_to_mask(image, min_difference)
     green_diff_mask = green_channel_diff_to_mask(image, min_difference)
-    return np.logical_and(blue_mask, np.logical_and(red_diff_mask, green_diff_mask))
+    return np.logical_and(blue_mask,
+                          np.logical_and(red_diff_mask, green_diff_mask))
 
 
 @transformation
@@ -92,7 +93,6 @@ def analyse_file(fpath, output_directory):
     image = Image.from_file(fpath)
     image = rescale(image, 0.5)
     image = rotate(image)
-    grayscale = np.mean(image, axis=2)
     mask = blue_to_mask(image, 150, 60)
     mask = remove_small_objects(mask, min_size=10)
     if np.sum(mask) < 10:
