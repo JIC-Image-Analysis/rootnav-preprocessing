@@ -5,6 +5,7 @@ import logging
 import argparse
 
 import numpy as np
+import scipy.misc
 
 from jicbioimage.core.image import Image
 from jicbioimage.core.transform import transformation
@@ -25,6 +26,17 @@ AutoName.prefix_format = "{:03d}_"
 @transformation
 def identity(image):
     """Return the image as is."""
+    return image
+
+
+@transformation
+def rescale(image, scale):
+    """Return rescaled image."""
+    def megapixels(image):
+        return image.shape[0] * image.shape[1] / 1e6
+    logging.info("megapixels pre scaling: {}".format(megapixels(image)))
+    image = scipy.misc.imresize(image, scale)
+    logging.info("megapixels post scaling: {}".format(megapixels(image)))
     return image
 
 
@@ -66,10 +78,11 @@ def analyse_file(fpath, output_directory):
     """Analyse a single file."""
     logging.info("Analysing file: {}".format(fpath))
     image = Image.from_file(fpath)
+    image = rescale(image, 0.5)
     image = rotate(image)
     grayscale = np.mean(image, axis=2)
     mask = blue_to_mask(image, 150, 60)
-    mask = remove_small_objects(mask, min_size=20000)
+    mask = remove_small_objects(mask, min_size=10)
     if np.sum(mask) < 10:
         print("skipping {}".format(fpath))
         return
