@@ -4,7 +4,10 @@ from subprocess import Popen, PIPE
 
 def zbar(fpath):
     """Return stdout and stderr from zbarimg."""
-    process = Popen(["zbarimg", fpath] , stdout=PIPE, stderr=PIPE, shell=True)
+    # Below works in normal shell.
+    process = Popen(["zbarimg", fpath] , stdout=PIPE, stderr=PIPE)
+    # Below works in docker container.
+    #process = Popen(["zbarimg", fpath] , stdout=PIPE, stderr=PIPE, shell=True)
     stdout, stderr = process.communicate()
     return stdout, stderr, process.returncode
 
