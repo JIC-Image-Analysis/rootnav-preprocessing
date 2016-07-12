@@ -17,6 +17,19 @@ This means that you will need to:
 before you can run the image analysis in a docker container.
 
 
+## Launching Docker Quickstart and cloning this software repository
+
+Once you have install the Docker Toolbox launch Docker Quickstart (there
+should be an icon on your Windows desktop). This will launch a terminal.
+
+From the terminal we can clone this git repository.
+
+```
+$ git clone https://github.com/JIC-Image-Analysis/rootnav-preprocessing.git
+$ cd rootnav-preprocessing
+```
+
+
 ## Build a Docker image
 
 Before you can run your analysis you need to build your docker image.  Once you
