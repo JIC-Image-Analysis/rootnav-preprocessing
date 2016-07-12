@@ -12,9 +12,9 @@ known as Docker.
 This means that you will need to:
 
 1. Download and install the [Docker Toolbox](https://www.docker.com/products/docker-toolbox)
-2. [](#build a docker image)
+2. Build a docker image
 
-Before you can [](#run the image analysis in a docker container)
+before you can run the image analysis in a docker container.
 
 
 ## Build a Docker image
@@ -32,6 +32,20 @@ $ cd docker
 $ bash build_docker_image.sh
 $ cd ..
 ```
+
+## Preparing data and output directories
+
+This work flow depends on input files being located in a directory called
+``data`` and the resulting files being written to a directory named ``output``.
+
+Let's create these directories.
+
+```
+$ mkdir data
+$ mkdir output
+```
+
+Now copy the files you want to analyse into the data directory.
 
 ## Run the image analysis in a Docker container
 
